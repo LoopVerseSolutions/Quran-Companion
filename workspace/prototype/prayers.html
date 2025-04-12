@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prayer Times - Quran Companion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .prayer-calendar {
+      margin-top: 2rem;
+    }
+    
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .calendar-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .calendar-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    
+    .calendar-table th, .calendar-table td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    
+    .calendar-table th {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .calendar-table tr:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+    
+    .current-day {
+      background-color: rgba(40, 167, 69, 0.1) !important;
+      font-weight: bold;
+    }
+    
+    .location-card {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .notification-settings {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .settings-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .settings-group h3 {
+      margin-bottom: 1rem;
+      color: var(--dark-color);
+    }
+    
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: var(--primary-color);
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+    
+    .qibla-finder {
+      text-align: center;
+      padding: 2rem;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      margin-top: 2rem;
+    }
+    
+    .compass {
+      width: 200px;
+      height: 200px;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="%23333" stroke-width="1"/><circle cx="50" cy="50" r="45" fill="none" stroke="%23333" stroke-width="0.5"/><path d="M50,5 L50,15 M50,85 L50,95 M5,50 L15,50 M85,50 L95,50" stroke="%23333" stroke-width="1"/><text x="48" y="12" font-size="6" text-anchor="middle">N</text><text x="48" y="96" font-size="6" text-anchor="middle">S</text><text x="88" y="52" font-size="6" text-anchor="middle">E</text><text x="12" y="52" font-size="6" text-anchor="middle">W</text><path d="M50,50 L50,20" stroke="%23c33" stroke-width="2"/><path d="M50,50 L65,50" stroke="%23333" stroke-width="2"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin: 0 auto 1rem auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1>Quran Companion</h1>
+      <p>Your personal Quran study assistant</p>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-container">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#browse">Browse</a></li>
+        <li><a href="#" onclick="alert('Search page would open')">Search</a></li>
+        <li><a href="bookmarks.html">Bookmarks</a></li>
+        <li><a href="prayers.html" class="active">Prayer Times</a></li>
+      </ul>
+      <div>
+        <a href="#" class="btn btn-outline">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <!-- Location Card -->
+      <section class="location-card">
+        <div>
+          <h2>Prayer Times</h2>
+          <p>Current location: <strong>New York, United States</strong></p>
+          <p>Calculation method: <strong>Islamic Society of North America (ISNA)</strong></p>
+        </div>
+        <div>
+          <button class="btn" id="location-btn"><i class="fas fa-map-marker-alt"></i> Update Location</button>
+        </div>
+      </section>
+      
+      <!-- Prayer Times Section -->
+      <section class="prayer-times">
+        <h2>Today's Prayer Times</h2>
+        <p>April 12, 2025 - Ramadan 14, 1446 AH</p>
+        
+        <div id="prayer-times-container" class="prayer-times-list">
+          <div class="prayer-time-card">
+            <h4>Fajr</h4>
+            <div class="prayer-time">5:23 AM</div>
+          </div>
+          <div class="prayer-time-card">
+            <h4>Sunrise</h4>
+            <div class="prayer-time">6:46 AM</div>
+          </div>
+          <div class="prayer-time-card">
+            <h4>Dhuhr</h4>
+            <div class="prayer-time">12:15 PM</div>
+          </div>
+          <div class="prayer-time-card">
+            <h4>Asr</h4>
+            <div class="prayer-time">3:45 PM</div>
+          </div>
+          <div class="prayer-time-card current">
+            <h4>Maghrib</h4>
+            <div class="prayer-time">6:32 PM</div>
+          </div>
+          <div class="prayer-time-card">
+            <h4>Isha</h4>
+            <div class="prayer-time">8:01 PM</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Prayer Calendar -->
+      <section class="prayer-calendar">
+        <div class="calendar-header">
+          <h2>Monthly Prayer Schedule</h2>
+          <div class="calendar-controls">
+            <button class="btn btn-outline" onclick="alert('Previous month would be shown')"><i class="fas fa-chevron-left"></i></button>
+            <button class="btn btn-outline" onclick="alert('Next month would be shown')"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="calendar-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Fajr</th>
+                <th>Sunrise</th>
+                <th>Dhuhr</th>
+                <th>Asr</th>
+                <th>Maghrib</th>
+                <th>Isha</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>April 10</td>
+                <td>5:25 AM</td>
+                <td>6:48 AM</td>
+                <td>12:15 PM</td>
+                <td>3:44 PM</td>
+                <td>6:30 PM</td>
+                <td>7:59 PM</td>
+              </tr>
+              <tr>
+                <td>April 11</td>
+                <td>5:24 AM</td>
+                <td>6:47 AM</td>
+                <td>12:15 PM</td>
+                <td>3:44 PM</td>
+                <td>6:31 PM</td>
+                <td>8:00 PM</td>
+              </tr>
+              <tr class="current-day">
+                <td>April 12</td>
+                <td>5:23 AM</td>
+                <td>6:46 AM</td>
+                <td>12:15 PM</td>
+                <td>3:45 PM</td>
+                <td>6:32 PM</td>
+                <td>8:01 PM</td>
+              </tr>
+              <tr>
+                <td>April 13</td>
+                <td>5:21 AM</td>
+                <td>6:44 AM</td>
+                <td>12:14 PM</td>
+                <td>3:45 PM</td>
+                <td>6:33 PM</td>
+                <td>8:02 PM</td>
+              </tr>
+              <tr>
+                <td>April 14</td>
+                <td>5:20 AM</td>
+                <td>6:43 AM</td>
+                <td>12:14 PM</td>
+                <td>3:46 PM</td>
+                <td>6:34 PM</td>
+                <td>8:03 PM</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <button class="btn" onclick="alert('Full month calendar would be shown')">View Full Month</button>
+      </section>
+      
+      <!-- Qibla Direction -->
+      <section class="qibla-finder">
+        <h2>Qibla Direction</h2>
+        <p>Find the direction of the Kaaba in Mecca for your prayers</p>
+        
+        <div class="compass"></div>
+        
+        <p>The Qibla direction from your location is <strong>56° Northeast</strong></p>
+        <button class="btn" onclick="alert('Qibla direction would be recalculated based on your current location')">Recalculate Direction</button>
+      </section>
+      
+      <!-- Notification Settings -->
+      <section class="notification-settings">
+        <h2>Prayer Notification Settings</h2>
+        
+        <div class="settings-group">
+          <h3>Prayer Alerts</h3>
+          
+          <div class="setting-item">
+            <div>
+              <h4>Fajr Prayer</h4>
+              <p>Notification before Fajr prayer</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-item">
+            <div>
+              <h4>Dhuhr Prayer</h4>
+              <p>Notification before Dhuhr prayer</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-item">
+            <div>
+              <h4>Asr Prayer</h4>
+              <p>Notification before Asr prayer</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-item">
+            <div>
+              <h4>Maghrib Prayer</h4>
+              <p>Notification before Maghrib prayer</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          
+          <div class="setting-item">
+            <div>
+              <h4>Isha Prayer</h4>
+              <p>Notification before Isha prayer</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="settings-group">
+          <h3>Notification Settings</h3>
+          
+          <div class="setting-item">
+            <div>
+              <h4>Notification Sound</h4>
+              <p>Choose the sound for prayer notifications</p>
+            </div>
+            <select>
+              <option>Adhan (Makkah)</option>
+              <option>Adhan (Madinah)</option>
+              <option>Simple Beep</option>
+              <option>Silent</option>
+            </select>
+          </div>
+          
+          <div class="setting-item">
+            <div>
+              <h4>Notification Timing</h4>
+              <p>Time before prayer to send notification</p>
+            </div>
+            <select>
+              <option>At prayer time</option>
+              <option>5 minutes before</option>
+              <option>10 minutes before</option>
+              <option>15 minutes before</option>
+              <option>30 minutes before</option>
+            </select>
+          </div>
+        </div>
+        
+        <button class="btn">Save Settings</button>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+      <p>&copy; 2025 Quran Companion. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

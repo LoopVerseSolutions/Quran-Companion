@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quran Companion - Interactive Quran Study App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1>Quran Companion</h1>
+      <p>Your personal Quran study assistant</p>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-container">
+      <ul class="nav-links">
+        <li><a href="#" onclick="navigateTo('home')">Home</a></li>
+        <li><a href="#" onclick="navigateTo('browse')">Browse</a></li>
+        <li><a href="#" onclick="navigateTo('search')">Search</a></li>
+        <li><a href="#" onclick="navigateTo('bookmarks')">Bookmarks</a></li>
+        <li><a href="#" onclick="navigateTo('prayers')">Prayer Times</a></li>
+      </ul>
+      <div>
+        <a href="#" onclick="navigateTo('login')" class="btn btn-outline">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <!-- Quran Browser Section -->
+      <section class="quran-browser">
+        <h2>Browse Quran</h2>
+        <div class="quran-controls">
+          <select id="surah-selector">
+            <option value="">Select Surah</option>
+            <option value="1">1. Al-Fatihah (The Opener)</option>
+            <option value="2">2. Al-Baqarah (The Cow)</option>
+            <option value="3">3. Aali Imran (The Family of Imran)</option>
+            <option value="4">4. An-Nisa (The Women)</option>
+            <option value="5">5. Al-Ma'idah (The Table Spread)</option>
+          </select>
+          <select id="translation-selector">
+            <option value="en">English</option>
+            <option value="ur">Urdu</option>
+            <option value="fr">French</option>
+            <option value="es">Spanish</option>
+            <option value="id">Indonesian</option>
+          </select>
+          <input type="text" id="search-input" placeholder="Search Quran...">
+          <button id="search-btn" class="btn">Search</button>
+        </div>
+
+        <div id="verses-container">
+          <!-- Sample verse (will be populated by JavaScript) -->
+        </div>
+      </section>
+
+      <!-- Prayer Times Section -->
+      <section class="prayer-times">
+        <h2>Prayer Times</h2>
+        <p>Prayer times for <strong>Your Location</strong> <button id="location-btn" class="btn btn-outline">Update Location</button></p>
+        <div id="prayer-times-container" class="prayer-times-list">
+          <!-- Prayer times will be populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="features">
+        <div class="feature-card">
+          <h3><i class="fas fa-search"></i> Advanced Search</h3>
+          <p>Search through the entire Quran using keywords, phrases, or topics. Find exactly what you're looking for with our powerful search tools.</p>
+        </div>
+        <div class="feature-card">
+          <h3><i class="fas fa-bookmark"></i> Bookmarks & Notes</h3>
+          <p>Save your favorite verses and add personal notes for future reference. Organize your studies with custom collections.</p>
+        </div>
+        <div class="feature-card">
+          <h3><i class="fas fa-headphones"></i> Audio Recitations</h3>
+          <p>Listen to beautiful recitations from renowned Qaris. Follow along with synchronized text highlighting.</p>
+        </div>
+        <div class="feature-card">
+          <h3><i class="fas fa-bell"></i> Daily Reminders</h3>
+          <p>Receive daily verse notifications to keep you connected with the Quran. Customize timing and frequency.</p>
+        </div>
+        <div class="feature-card">
+          <h3><i class="fas fa-clock"></i> Prayer Times</h3>
+          <p>Get accurate prayer times based on your location. Receive notifications for each prayer time.</p>
+        </div>
+        <div class="feature-card">
+          <h3><i class="fas fa-book"></i> Tafsir Integration</h3>
+          <p>Access in-depth explanations and interpretations of verses from various scholars to enhance your understanding.</p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="#" onclick="navigateTo('about')">About</a></li>
+        <li><a href="#" onclick="navigateTo('contact')">Contact</a></li>
+        <li><a href="#" onclick="navigateTo('privacy')">Privacy Policy</a></li>
+        <li><a href="#" onclick="navigateTo('terms')">Terms of Service</a></li>
+      </ul>
+      <p>&copy; 2025 Quran Companion. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

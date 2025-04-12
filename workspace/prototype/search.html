@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search - Quran Companion</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .search-container {
+      margin-bottom: 2rem;
+    }
+    
+    .search-input-group {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-right: none;
+      border-radius: 3px 0 0 3px;
+      font-size: 1rem;
+    }
+    
+    .search-btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      cursor: pointer;
+      border-radius: 0 3px 3px 0;
+    }
+    
+    .search-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .search-option {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .search-option label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    
+    .search-option select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
+    
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .filter-tag {
+      background-color: #f0f0f0;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .filter-tag i {
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
+    
+    .filter-tag i:hover {
+      color: var(--danger-color);
+    }
+    
+    .search-tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 1rem;
+    }
+    
+    .search-tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .search-tab.active {
+      border-bottom: 3px solid var(--primary-color);
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    
+    .search-results {
+      margin-top: 1rem;
+    }
+    
+    .result-stats {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+    
+    .result-card {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .result-meta {
+      color: #666;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .highlight {
+      background-color: rgba(40, 167, 69, 0.2);
+      padding: 0 0.25rem;
+    }
+    
+    .recent-searches {
+      margin-top: 2rem;
+    }
+    
+    .recent-search-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .recent-search-item:last-child {
+      border-bottom: none;
+    }
+    
+    .recent-search-item .search-query {
+      font-weight: bold;
+    }
+    
+    .recent-search-item .search-date {
+      color: #666;
+      font-size: 0.875rem;
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .pagination-item {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      margin: 0 0.25rem;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
+    .pagination-item.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .pagination-item:hover:not(.active) {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1>Quran Companion</h1>
+      <p>Your personal Quran study assistant</p>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container nav-container">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#browse">Browse</a></li>
+        <li><a href="search.html" class="active">Search</a></li>
+        <li><a href="bookmarks.html">Bookmarks</a></li>
+        <li><a href="prayers.html">Prayer Times</a></li>
+      </ul>
+      <div>
+        <a href="#" class="btn btn-outline">Sign In</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <section class="quran-browser">
+        <h2><i class="fas fa-search"></i> Search the Quran</h2>
+        
+        <!-- Search Form -->
+        <div class="search-container">
+          <div class="search-input-group">
+            <input type="text" class="search-input" placeholder="Search for verses, topics, or keywords..." value="mercy">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+          </div>
+          
+          <div class="search-options">
+            <div class="search-option">
+              <label for="search-type">Search Type</label>
+              <select id="search-type">
+                <option value="text">Text Search</option>
+                <option value="root">Root Word Search</option>
+                <option value="topic">Topic Search</option>
+              </select>
+            </div>
+            
+            <div class="search-option">
+              <label for="translation">Translation</label>
+              <select id="translation">
+                <option value="en">English</option>
+                <option value="ur">Urdu</option>
+                <option value="ar">Arabic</option>
+                <option value="fr">French</option>
+                <option value="id">Indonesian</option>
+              </select>
+            </div>
+            
+            <div class="search-option">
+              <label for="search-surah">Surah Filter</label>
+              <select id="search-surah">
+                <option value="">All Surahs</option>
+                <option value="1">1. Al-Fatihah</option>
+                <option value="2">2. Al-Baqarah</option>
+                <option value="3">3. Aali Imran</option>
+                <option value="4">4. An-Nisa</option>
+                <option value="5">5. Al-Ma'idah</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="filter-tags">
+            <div class="filter-tag">
+              Search: "mercy" <i class="fas fa-times"></i>
+            </div>
+            <div class="filter-tag">
+              Translation: English <i class="fas fa-times"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Search Tabs -->
+        <div class="search-tabs">
+          <div class="search-tab active">All Results (35)</div>
+          <div class="search-tab">Verses (28)</div>
+          <div class="search-tab">Topics (7)</div>
+        </div>
+        
+        <!-- Search Results -->
+        <div class="search-results">
+          <div class="result-stats">Showing results 1-5 of 35 for "mercy"</div>
+          
+          <div class="result-card">
+            <div class="result-meta">
+              Surah Al-Fatihah (1:1-3)
+            </div>
+            <div class="verse-arabic">
+              بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+              الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+              الرَّحْمَٰنِ الرَّحِيمِ
+            </div>
+            <div class="verse-translation">
+              In the name of Allah, the Entirely <span class="highlight">Mercy</span>ful, the Especially <span class="highlight">Mercy</span>ful. All praise is due to Allah, Lord of the worlds. The Entirely <span class="highlight">Mercy</span>ful, the Especially <span class="highlight">Mercy</span>ful.
+            </div>
+            <div class="verse-actions">
+              <button class="audio-btn">
+                <i class="fas fa-play"></i> Play
+              </button>
+              <button class="tafsir-btn">
+                <i class="fas fa-book"></i> Tafsir
+              </button>
+              <button class="bookmark-btn">
+                <i class="fas fa-bookmark"></i> Bookmark
+              </button>
+            </div>
+          </div>
+          
+          <div class="result-card">
+            <div class="result-meta">
+              Surah Al-A'raf (7:156)
+            </div>
+            <div class="verse-arabic">
+              وَاكْتُبْ لَنَا فِي هَٰذِهِ الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ إِنَّا هُدْنَا إِلَيْكَ ۚ قَالَ عَذَابِي أُصِيبُ بِهِ مَنْ أَشَاءُ ۖ وَرَحْمَتِي وَسِعَتْ كُلَّ شَيْءٍ ۚ فَسَأَكْتُبُهَا لِلَّذِينَ يَتَّقُونَ وَيُؤْتُونَ الزَّكَاةَ وَالَّذِينَ هُم بِآيَاتِنَا يُؤْمِنُونَ
+            </div>
+            <div class="verse-translation">
+              And decree for us in this world [that which is] good and in the Hereafter; indeed, we have turned back to You. [Allah] said, "My punishment - I afflict with it whom I will, but My <span class="highlight">mercy</span> encompasses all things. So I will decree it [especially] for those who fear Me and give zakah and those who believe in Our verses."
+            </div>
+            <div class="verse-actions">
+              <button class="audio-btn">
+                <i class="fas fa-play"></i> Play
+              </button>
+              <button class="tafsir-btn">
+                <i class="fas fa-book"></i> Tafsir
+              </button>
+              <button class="bookmark-btn">
+                <i class="fas fa-bookmark"></i> Bookmark
+              </button>
+            </div>
+          </div>
+          
+          <div class="result-card">
+            <div class="result-meta">
+              Surah Al-Baqarah (2:218)
+            </div>
+            <div class="verse-arabic">
+              إِنَّ الَّذِينَ آمَنُوا وَالَّذِينَ هَاجَرُوا وَجَاهَدُوا فِي سَبِيلِ اللَّهِ أُولَٰئِكَ يَرْجُونَ رَحْمَتَ اللَّهِ ۚ وَاللَّهُ غَفُورٌ رَّحِيمٌ
+            </div>
+            <div class="verse-translation">
+              Indeed, those who have believed and those who have emigrated and fought in the cause of Allah - those expect the <span class="highlight">mercy</span> of Allah. And Allah is Forgiving and <span class="highlight">Mercy</span>ful.
+            </div>
+            <div class="verse-actions">
+              <button class="audio-btn">
+                <i class="fas fa-play"></i> Play
+              </button>
+              <button class="tafsir-btn">
+                <i class="fas fa-book"></i> Tafsir
+              </button>
+              <button class="bookmark-btn">
+                <i class="fas fa-bookmark"></i> Bookmark
+              </button>
+            </div>
+          </div>
+          
+          <div class="result-card">
+            <div class="result-meta">
+              Surah An-Nisa (4:175)
+            </div>
+            <div class="verse-arabic">
+              فَأَمَّا الَّذِينَ آمَنُوا بِاللَّهِ وَاعْتَصَمُوا بِهِ فَسَيُدْخِلُهُمْ فِي رَحْمَةٍ مِّنْهُ وَفَضْلٍ وَيَهْدِيهِمْ إِلَيْهِ صِرَاطًا مُّسْتَقِيمًا
+            </div>
+            <div class="verse-translation">
+              So those who believe in Allah and hold fast to Him - He will admit them to <span class="highlight">mercy</span> from Himself and bounty and guide them to Himself on a straight path.
+            </div>
+            <div class="verse-actions">
+              <button class="audio-btn">
+                <i class="fas fa-play"></i> Play
+              </button>
+              <button class="tafsir-btn">
+                <i class="fas fa-book"></i> Tafsir
+              </button>
+              <button class="bookmark-btn">
+                <i class="fas fa-bookmark"></i> Bookmark
+              </button>
+            </div>
+          </div>
+          
+          <div class="result-card">
+            <div class="result-meta">
+              Topic Result
+            </div>
+            <h3>Divine <span class="highlight">Mercy</span> in Islam</h3>
+            <p>
+              A comprehensive overview of the concept of <span class="highlight">mercy</span> in Islam, including the attributes of Allah as Ar-Rahman (The Most <span class="highlight">Mercy</span>ful) and Ar-Raheem (The Especially <span class="highlight">Mercy</span>ful). This topic includes 145 related verses and hadith.
+            </p>
+            <div class="verse-actions">
+              <button class="btn btn-outline">
+                <i class="fas fa-book-open"></i> View Topic
+              </button>
+            </div>
+          </div>
+          
+          <!-- Pagination -->
+          <div class="pagination">
+            <span class="pagination-item active">1</span>
+            <span class="pagination-item">2</span>
+            <span class="pagination-item">3</span>
+            <span class="pagination-item">4</span>
+            <span class="pagination-item">5</span>
+            <span class="pagination-item">
+              <i class="fas fa-chevron-right"></i>
+            </span>
+          </div>
+        </div>
+        
+        <!-- Recent Searches -->
+        <div class="recent-searches">
+          <h3>Recent Searches</h3>
+          
+          <div class="recent-search-item">
+            <div>
+              <span class="search-query">"forgiveness"</span>
+              <span class="search-date">Apr 10, 2025</span>
+            </div>
+            <button class="btn btn-outline">Search Again</button>
+          </div>
+          
+          <div class="recent-search-item">
+            <div>
+              <span class="search-query">"patience"</span>
+              <span class="search-date">Apr 8, 2025</span>
+            </div>
+            <button class="btn btn-outline">Search Again</button>
+          </div>
+          
+          <div class="recent-search-item">
+            <div>
+              <span class="search-query">"prayer"</span>
+              <span class="search-date">Apr 5, 2025</span>
+            </div>
+            <button class="btn btn-outline">Search Again</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+      </ul>
+      <p>&copy; 2025 Quran Companion. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

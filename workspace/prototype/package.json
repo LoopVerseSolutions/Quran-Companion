@@ -1,0 +1,11 @@
+{
+  "name": "quran-companion-prototype",
+  "version": "0.1.0",
+  "description": "A prototype for the Quran Companion application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Quran Companion Team",
+  "license": "MIT"
+}
